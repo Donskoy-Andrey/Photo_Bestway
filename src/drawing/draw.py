@@ -9,11 +9,12 @@ def draw(xs: list, ys: list):
     plt.scatter(xs, ys, c='black')
     plt.xticks(xs, [abs(i) for i in xs])
     plt.yticks(ys, [abs(i) for i in ys])
-    plt.savefig(f'../photo.png')
+    plt.grid(True)
+    plt.savefig(f'../data/images/ouput.png')
 
 
 def main():
-    path = "./../result.txt"
+    path = "./../data/txt/output.txt"
     xs, ys = [], [] 
     with open(path, 'r') as file:
         for i in file.readlines():
