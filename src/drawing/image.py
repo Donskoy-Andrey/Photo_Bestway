@@ -1,12 +1,13 @@
 import numpy as np
 from PIL import Image
+import sys
 
 
 def main():
-    path = "data/images/test.png"
-    img = Image.open(path)
+    input_path = sys.argv[1]
+    img = Image.open(input_path)
     array = np.asarray(img)[:, :, 2]
-    with open("data/txt/photo.txt", "w") as txt_file:
+    with open("../data/txt/input.txt", "w") as txt_file:
         for line in array:
             line = [str(i) for i in line]
             txt_file.write(" ".join(line) + "\n")
