@@ -24,7 +24,7 @@ $ program_name input_img.png <rows> <cols> <x_s> <x_f> output_img.png
 ```
 Например,
 ```
-$ ./main ../data/images/input.png 100 100 0 99 ../data/images/output.png
+$ ./main ../data/images/input.png 100 100 0 99 ../data/images/out.png
 ```
 Где начальная точка в данном случае в левом верхнем углу, а конечная в правом нижнем.
 
