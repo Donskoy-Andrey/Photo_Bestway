@@ -7,7 +7,7 @@
 
 
 int main(int argc, char **argv){
-    int N = 5;
+    int N = 100;
     
     if (argc != 2){
         std::cerr << "Incorrect amount of the params." << std::endl;
@@ -23,6 +23,7 @@ int main(int argc, char **argv){
     int best_way[N][N];
     find_best_way(&best_way[0][0], &arr[0][0], N);
 
+/*
     // Check result array
     for (int i = 0; i < N; ++i){
         for (int j = 0; j < N; ++j){
@@ -30,6 +31,7 @@ int main(int argc, char **argv){
         }
         std::cout << std::endl;
     }
+*/
 
     // Draw line
     std::vector <int> xs;

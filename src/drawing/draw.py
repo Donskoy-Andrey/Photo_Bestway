@@ -1,16 +1,19 @@
 import sys
 import matplotlib.pyplot as plt
-
+from PIL import Image
+import numpy as np
 
 def draw(xs: list, ys: list):
+
+    img = plt.imread("./../data/images/test.png")
+    img = Image.fromarray(np.asarray(Image.open("./../data/images/test.png"))[:, :, 2])
+    
     plt.figure(figsize=(8, 8))
     plt.title("Best way", fontsize=20)
-    plt.plot(xs, ys, c='r')
-    plt.scatter(xs, ys, c='black')
-    plt.xticks(xs, [abs(i) for i in xs])
-    plt.yticks(ys, [abs(i) for i in ys])
+    plt.imshow(img)
+    plt.plot(xs[::-1], [abs(i) for i in ys[::-1]], c='r')
     plt.grid(True)
-    plt.savefig(f'../data/images/ouput.png')
+    plt.savefig(f'../data/images/output.png')
 
 
 def main():
