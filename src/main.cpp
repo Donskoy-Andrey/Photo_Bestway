@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 #include "run_py_script.h"
 #include "data_preparing/open_file.h"
 #include "algorithm/search.h"
 #include "drawing/get_line.h"
+#include "algorithm/classes.h"
 
 
 int main(int argc, char **argv){
@@ -29,33 +31,32 @@ int main(int argc, char **argv){
         return -1;
     }
 
-    // image_to_array(file_input);
+    image_to_array(file_input);
 
     // Read file
-    int arr[N][M];
+    Vertex arr[N][M];
     std::string filepath = "../data/txt/input.txt"; 
     if (open_file(filepath, &arr[0][0], N, M) < 0){
         return -1;
     };
 
     // Find best ways
-    int best_way[N][M];
-    find_best_way(&best_way[0][0], &arr[0][0], N, M, x_start, x_end);
+    find_best_way(&arr[0][0], N, M, x_start, x_end);
 
-
+/*
     // Check results of array
     for (int i = 0; i < N; ++i){
         for (int j = 0; j < M; ++j){
-            std::cout << best_way[i][j] << " ";
+            std::cout << arr[i][j].path_to << " ";
         }
         std::cout << std::endl;
     }
-
+*/
 
     // Draw line
     std::vector <int> xs;
     std::vector <int> ys;
-    final_line(&best_way[0][0], N, M, xs, ys);
+    final_line(&arr[0][0], xs, ys, N, M, x_start, x_end);
     draw(xs, ys, file_input, file_output);
 
     return 0;

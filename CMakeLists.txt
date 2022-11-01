@@ -15,6 +15,7 @@ src/data_preparing/open_file.h
 src/data_preparing/open_file.cpp
 src/algorithm/search.h
 src/algorithm/search.cpp
+src/algorithm/classes.h
 src/drawing/get_line.cpp
 src/drawing/get_line.h
 )

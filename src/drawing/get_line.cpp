@@ -1,61 +1,34 @@
 #include <vector>
 #include <iostream>
 #include <limits>
+#include "algorithm/classes.h"
 
 
-int final_line(int* best_way, int N, int M, std::vector <int> &xs, std::vector <int> &ys){
-    int check_i = N-1, check_j = M-1;
-    int min_value;
-    xs.push_back(check_j);
-    ys.push_back(check_i);
+int final_line(Vertex* arr, std::vector <int> &xs, std::vector <int> &ys, 
+int N, int M, int x_start, int x_end){
+    int current_x = x_end;
+    int current_y = N-1;
+    xs.push_back(current_x);
+    ys.push_back(current_y);
 
-    int left, right, down, up;
-    while ((check_i != 0) or (check_j != 0)){
-        left = std::numeric_limits<int>::max();
-        right = std::numeric_limits<int>::max();
-        up = std::numeric_limits<int>::max();
-
-        if ((check_j != M-1) and (check_j != 0)){
-            left = best_way[check_i*N+check_j-1];
-            right = best_way[check_i*N+check_j+1];
-            up = best_way[(check_i-1)*N+check_j];
-            // std::cout << left << " " << right << " " << up << std::endl;
+    while ((current_x != x_start) or (current_y != 0))
+    {
+        // std::cout << current_y << " " << current_x << std::endl;
+        auto way = arr[current_y*N+current_x].way;
+        if (way == previous::left){
+            --current_x;
+            // std::cout << "1st " << current_x << current_y << std::endl;
+        } else if (way == previous::right){
+            ++current_x;
+            // std::cout << "2nd " << current_x << current_y << std::endl;
+        } else if (way == previous::up){
+            --current_y;
+            // std::cout << "3rd " << current_x << current_y << std::endl;
+        } else {
+            return 0;
         }
-
-        if (check_j == N-1){ // last column
-            left = best_way[check_i*N+check_j-1];
-            up = best_way[(check_i-1)*N+check_j];
-            // std::cout << "Last column " << left << " " << up << std::endl;
-        }
-
-        if (check_j == 0){ // 1st column
-            right = best_way[check_i*N+check_j+1];
-            up = best_way[(check_i-1)*N+check_j];
-            // std::cout << "1st column " << right << " " << up << std::endl;
-        }
-
-        if (check_i == 0){ // 1st row
-            left = best_way[check_i*N+check_j-1];
-            right = best_way[check_i*N+check_j+1];
-            // std::cout << "1st row " << left << " " << right << std::endl;
-        }
-
-        min_value = std::min(left, std::min(right, up));
-        if (min_value == best_way[check_i*N+check_j-1]){
-            // std::cout << "Next step = LEFT" << std::endl;
-            --check_j; // left
-        }
-        else if (min_value == best_way[(check_i-1)*N+check_j]){
-            // std::cout << "Next step = UP" << std::endl;
-            --check_i; // up
-        }
-        else if (min_value == best_way[check_i*N+check_j+1]){
-            // std::cout << "Next step = RIGHT" << std::endl;
-            ++check_j; // right
-        }
-        // std::cout << "New coordinates = "<< check_i << ", " << check_j << std::endl;
-        xs.push_back(check_j);
-        ys.push_back(check_i);
+        xs.push_back(current_x);
+        ys.push_back(current_y);
     }
     return 0;
 }

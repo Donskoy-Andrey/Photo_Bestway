@@ -5,54 +5,72 @@
 #include <algorithm>
 #include <typeinfo>
 #include "search.h"
+#include "algorithm/classes.h"
 #include <limits>
 
-int find_best_way(int* best_way, int* arr, int N, int M, int x_start, int x_end){
-    for (int i = 0; i < N; ++i){
-        for (int j = 0; j < M; ++j){
-            best_way[i*N+j] = std::numeric_limits<int>::max();
-        }
-    }
 
-    best_way[0] = 0; // 1st element is zero
+int find_best_way(Vertex* arr, int N, int M, int x_start, int x_end)
+{
+    int counter;
+    int y_start = 0;
+    int y_end = N-1;
 
-    int path_to_point = 0;
-    int current_value = 0;
+    int min_x, min_y;
+    int min_path;
 
-    for (int i = 0; i < N; ++i){
-        ifor (int j = 0; j < M; ++j){
-            current_value = arr[i*N+j];
-            path_to_point = best_way[i*N+j];
-
-            if ((j != 0) and (j != N-1) and (i != (N-1))){
-                // std::cout << "=1=" << std::endl;
-                // std::cout << current_value << " " << path_to_point << std::endl;
-                best_way[i*N+j-1] = std::min(best_way[i*N+j-1], current_value + path_to_point);
-                best_way[i*N+j+1] = std::min(best_way[i*N+j+1], current_value + path_to_point);
-                best_way[(i+1)*N+j] = std::min(best_way[(i+1)*N+j], current_value + path_to_point);
-                
-            }
-
-            if ((j == 0) and ( != N-1)){ // 1st column
-                // std::cout << "=2=" << std::endl;
-                best_way[i*N+j+1] = std::min(best_way[i*N+j+1], current_value + path_to_point);
-                best_way[(i+1)*N+j] = std::min(best_way[(i+1)*N+j], current_value + path_to_point);
-            }
-
-            if ((j == N-1) and (i != N-1)) { // last column
-                // std::cout << "=3=" << std::endl;
-                // std::cout << current_value << " " << path_to_point << std::endl;
-                best_way[i*N+j-1] = std::min(best_way[i*N+j-1], current_value + path_to_point);
-                best_way[(i+1)*N+j] = std::min(best_way[(i+1)*N+j], current_value + path_to_point);
-            }
-
-            if ((i == N-1) and (j != 0) and (j != N-1)){ // last row
-                // std::cout << "=4=" << std::endl;
-                // std::cout << current_value << " " << path_to_point << std::endl;
-                best_way[i*N+j-1] = std::min(best_way[i*N+j-1], current_value + path_to_point);
-                best_way[i*N+j+1] = std::min(best_way[i*N+j+1], current_value + path_to_point);
+    arr[y_start*N+x_start].path_to = 0;
+    while (true){
+        // count visited values
+        counter = 0;
+        for (int i = 0; i < N; ++i){
+            for (int j = 0; j < M; ++j){
+                counter += (arr[i*N+j].visited == true);
             }
         }
+        if (counter == N*M){
+            return 0;
+        }
+
+        // find minimal value 
+        min_path = std::numeric_limits<int>::max();
+        for (int i = 0; i < N; ++i){
+            for (int j = 0; j < M; ++j){
+                if ((arr[i*N+j].path_to < min_path) and (arr[i*N+j].visited == false)){
+                    min_path = arr[i*N+j].path_to;
+                    min_x = j;
+                    min_y = i;
+                }
+            }
+        }
+
+        // check neighbour 
+        int current_weight = arr[min_y*N + min_x].weight;
+        int current_path_to = arr[min_y*N + min_x].path_to;
+        arr[min_y*N + min_x].visited = true;
+        // left
+            if ((min_x - 1) > -1){
+                int left_path_to = arr[min_y*N + min_x - 1].path_to;
+                if (std::min(left_path_to, current_path_to+current_weight) != left_path_to){
+                    arr[min_y*N + min_x - 1].way = previous::right;
+                }
+                arr[min_y*N + min_x - 1].path_to = std::min(left_path_to, current_path_to+current_weight);
+            }
+        // right
+            if((min_x + 1) < M){
+                int right_path_to = arr[min_y*N + min_x + 1].path_to;
+                if (std::min(right_path_to, current_path_to+current_weight) != right_path_to){
+                    arr[min_y*N + min_x + 1].way = previous::left;
+                }
+                arr[min_y*N + min_x + 1].path_to = std::min(right_path_to, current_path_to+current_weight);
+            }
+        // down
+            if ((min_y + 1) < N){
+                int down_path_to = arr[(min_y + 1)*N + min_x].path_to;
+                if (std::min(down_path_to, current_path_to+current_weight) != down_path_to){
+                    arr[(min_y + 1)*N + min_x].way = previous::up;
+                }
+                arr[(min_y + 1)*N + min_x].path_to = std::min(down_path_to, current_path_to+current_weight);
+            }
     }
     return 0;
 }
