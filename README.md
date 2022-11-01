@@ -29,5 +29,3 @@ $ ./main ../data/images/input.png 100 100 0 99 ../data/images/output.png
 Где начальная точка в данном случае в левом верхнем углу, а конечная в правом нижнем.
 
 ## Результат
-
-![](https://github.com/Donskoy-Andrey/bestway/blob/master/data/images/output.png?raw=true)
