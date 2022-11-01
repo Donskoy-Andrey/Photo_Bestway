@@ -29,31 +29,33 @@ int main(int argc, char **argv){
         return -1;
     }
 
-    image_to_array(file_input);
+    // image_to_array(file_input);
 
     // Read file
     int arr[N][M];
     std::string filepath = "../data/txt/input.txt"; 
-    open_file(filepath, &arr[0][0], N);
+    if (open_file(filepath, &arr[0][0], N, M) < 0){
+        return -1;
+    };
 
     // Find best ways
-    int best_way[N][N];
-    find_best_way(&best_way[0][0], &arr[0][0], N);
+    int best_way[N][M];
+    find_best_way(&best_way[0][0], &arr[0][0], N, M, x_start, x_end);
 
-/*
+
     // Check results of array
     for (int i = 0; i < N; ++i){
-        for (int j = 0; j < N; ++j){
+        for (int j = 0; j < M; ++j){
             std::cout << best_way[i][j] << " ";
         }
         std::cout << std::endl;
     }
-*/
+
 
     // Draw line
     std::vector <int> xs;
     std::vector <int> ys;
-    final_line(&best_way[0][0], N, xs, ys);
+    final_line(&best_way[0][0], N, M, xs, ys);
     draw(xs, ys, file_input, file_output);
 
     return 0;

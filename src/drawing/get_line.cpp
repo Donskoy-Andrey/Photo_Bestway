@@ -1,24 +1,25 @@
 #include <vector>
 #include <iostream>
+#include <limits>
 
 
-int final_line(int* best_way, int N, std::vector <int> &xs, std::vector <int> &ys){
-    int check_i = N-1, check_j = N-1;
+int final_line(int* best_way, int N, int M, std::vector <int> &xs, std::vector <int> &ys){
+    int check_i = N-1, check_j = M-1;
     int min_value;
     xs.push_back(check_j);
     ys.push_back(check_i);
 
-
     int left, right, down, up;
     while ((check_i != 0) or (check_j != 0)){
-        left = 300;
-        right = 300;
-        up = 300;
+        left = std::numeric_limits<int>::max();
+        right = std::numeric_limits<int>::max();
+        up = std::numeric_limits<int>::max();
 
-        if ((check_j != N-1) and (check_j != 0)){
+        if ((check_j != M-1) and (check_j != 0)){
             left = best_way[check_i*N+check_j-1];
             right = best_way[check_i*N+check_j+1];
             up = best_way[(check_i-1)*N+check_j];
+            // std::cout << left << " " << right << " " << up << std::endl;
         }
 
         if (check_j == N-1){ // last column
@@ -38,7 +39,6 @@ int final_line(int* best_way, int N, std::vector <int> &xs, std::vector <int> &y
             right = best_way[check_i*N+check_j+1];
             // std::cout << "1st row " << left << " " << right << std::endl;
         }
-
 
         min_value = std::min(left, std::min(right, up));
         if (min_value == best_way[check_i*N+check_j-1]){

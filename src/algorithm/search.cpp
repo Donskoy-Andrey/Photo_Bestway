@@ -5,12 +5,12 @@
 #include <algorithm>
 #include <typeinfo>
 #include "search.h"
+#include <limits>
 
-
-int find_best_way(int* best_way, int* arr, int N){
+int find_best_way(int* best_way, int* arr, int N, int M, int x_start, int x_end){
     for (int i = 0; i < N; ++i){
-        for (int j = 0; j < N; ++j){
-            best_way[i*N+j] = 300;
+        for (int j = 0; j < M; ++j){
+            best_way[i*N+j] = std::numeric_limits<int>::max();
         }
     }
 
@@ -20,7 +20,7 @@ int find_best_way(int* best_way, int* arr, int N){
     int current_value = 0;
 
     for (int i = 0; i < N; ++i){
-        for (int j = 0; j < N; ++j){
+        ifor (int j = 0; j < M; ++j){
             current_value = arr[i*N+j];
             path_to_point = best_way[i*N+j];
 
@@ -33,7 +33,7 @@ int find_best_way(int* best_way, int* arr, int N){
                 
             }
 
-            if ((j == 0) and (i != N-1)){ // 1st column
+            if ((j == 0) and ( != N-1)){ // 1st column
                 // std::cout << "=2=" << std::endl;
                 best_way[i*N+j+1] = std::min(best_way[i*N+j+1], current_value + path_to_point);
                 best_way[(i+1)*N+j] = std::min(best_way[(i+1)*N+j], current_value + path_to_point);
@@ -53,7 +53,6 @@ int find_best_way(int* best_way, int* arr, int N){
                 best_way[i*N+j+1] = std::min(best_way[i*N+j+1], current_value + path_to_point);
             }
         }
-    }    
-
+    }
     return 0;
 }
