@@ -32,3 +32,8 @@ $ ./main ../data/images/input.png 100 100 0 99 ../data/images/out.png
 
 ![](https://github.com/Donskoy-Andrey/bestway/blob/master/data/images/out2.png?raw=true)
 ![](https://github.com/Donskoy-Andrey/bestway/blob/master/data/images/out.png?raw=true)
+
+## Processing in C++:
+<picture>
+ <img src="https://github.com/Donskoy-Andrey/bestway/blob/master/data/images/output-cpp.png" width="400">
+</picture>
